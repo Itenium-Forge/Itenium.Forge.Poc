@@ -1,16 +1,16 @@
+using FeatureFlags.Api;
 using Itenium.Forge.Controllers;
 using Itenium.Forge.HealthChecks;
 using Itenium.Forge.Logging;
 using Itenium.Forge.Settings;
 using Serilog;
-using Shell.Api;
 
 Log.Logger = LoggingExtensions.CreateBootstrapLogger();
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-    builder.AddForgeSettings<ShellSettings>();
+    builder.AddForgeSettings<FeatureFlagsSettings>();
     builder.AddForgeLogging();
 
     builder.AddForgeControllers();
@@ -25,13 +25,14 @@ try
     app.UseCors("CorsPolicy");
     app.UseForgeHealthChecks();
 
-    app.MapGet("/", () => "Hello World");
+    app.MapGet("/", () => "Hello from Feature Flags");
 
-    app.MapGet("/apps", (IConfiguration config) =>
-        config.GetSection("Apps")
-              .GetChildren()
-              .Select(s => new { Name = s.Key, RemoteUrl = s["RemoteUrl"] })
-              .ToArray());
+    app.MapGet("/flags", () => new[]
+    {
+        new { Name = "dark-mode",     Enabled = true  },
+        new { Name = "new-dashboard", Enabled = false },
+        new { Name = "beta-export",   Enabled = false },
+    });
 
     app.Run();
 }
