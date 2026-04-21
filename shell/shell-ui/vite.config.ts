@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import federation from '@originjs/vite-plugin-federation'
+import { federation } from '@module-federation/vite'
 
 export default defineConfig({
   plugins: [
@@ -8,11 +8,15 @@ export default defineConfig({
     federation({
       name: 'shell',
       remotes: {
-        featureFlags: 'http://localhost:3001/assets/remoteEntry.js',
+        featureFlags: {
+          type: 'module',
+          name: 'featureFlags',
+          entry: 'http://localhost:3001/remoteEntry.js',
+        },
       },
-      shared: ['react', 'react-dom'],
+      shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
     }),
   ],
   server: { port: 3000 },
-  build: { target: 'esnext' },
+  preview: { port: 3000 },
 })
