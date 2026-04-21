@@ -1,9 +1,11 @@
 using Itenium.Forge.Controllers;
 using Itenium.Forge.HealthChecks;
+using Itenium.Forge.HttpClients;
 using Itenium.Forge.Logging;
 using Itenium.Forge.Settings;
 using Serilog;
 using Shell.Api;
+using Shell.Api.Clients;
 
 Log.Logger = LoggingExtensions.CreateBootstrapLogger();
 
@@ -17,12 +19,13 @@ try
     builder.AddForgeProblemDetails();
     builder.AddForgeHealthChecks();
 
+    builder.AddForgeHttpClient<IFeatureFlagsClient>("FeatureFlags");
+
     var app = builder.Build();
 
     app.UseForgeProblemDetails();
     app.UseForgeLogging();
     app.UseForgeControllers();
-    app.UseCors("CorsPolicy"); // TODO: remove when Forge.Controllers > 0.3.13 is released
     app.UseForgeHealthChecks();
 
     app.MapGet("/", () => "Hello World");

@@ -22,17 +22,9 @@ try
     app.UseForgeProblemDetails();
     app.UseForgeLogging();
     app.UseForgeControllers();
-    app.UseCors("CorsPolicy"); // TODO: remove when Forge.Controllers > 0.3.13 is released
     app.UseForgeHealthChecks();
 
     app.MapGet("/", () => "Hello from Feature Flags");
-
-    app.MapGet("/flags", () => new[]
-    {
-        new { Name = "dark-mode",     Enabled = true  },
-        new { Name = "new-dashboard", Enabled = false },
-        new { Name = "beta-export",   Enabled = false },
-    });
 
     app.Run();
 }

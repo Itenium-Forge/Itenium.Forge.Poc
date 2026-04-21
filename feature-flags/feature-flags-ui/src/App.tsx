@@ -10,7 +10,7 @@ function App() {
   const [flags, setFlags] = useState<Flag[]>([])
 
   useEffect(() => {
-    fetch('http://localhost:5200/flags')
+    fetch('http://localhost:5100/api/flags')
       .then(r => r.json())
       .then(setFlags)
       .catch(() => setFlags([]))

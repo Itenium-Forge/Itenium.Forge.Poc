@@ -34,7 +34,7 @@ public class FeatureFlagsTests
     [Test]
     public async Task Flags_ReturnsListOfFlags()
     {
-        var flags = await _client.GetFromJsonAsync<Flag[]>("/flags");
+        var flags = await _client.GetFromJsonAsync<Flag[]>("/api/flags");
         Assert.That(flags, Is.Not.Null);
         Assert.That(flags!, Has.Length.GreaterThan(0));
         Assert.That(flags!, Has.All.Matches<Flag>(f => f.Name != null));
@@ -57,7 +57,7 @@ public class FeatureFlagsTests
     [Test]
     public async Task Flags_WithAllowedOrigin_ReturnsCorsHeader()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "/flags");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/api/flags");
         request.Headers.Add("Origin", "http://localhost:3000");
 
         var response = await _client.SendAsync(request);
