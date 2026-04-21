@@ -30,8 +30,10 @@
   font-size: 0.95rem;
 }
 
-.shell-header nav a:hover {
+.shell-header nav a:hover,
+.shell-header nav a.active {
   color: white;
+  font-weight: 600;
 }
 
 .shell-content {

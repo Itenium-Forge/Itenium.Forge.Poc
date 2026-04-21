@@ -50,4 +50,15 @@ public class ShellTests
         var response = await _client.GetAsync("/apps");
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
+
+    [Test]
+    public async Task Get_WithAllowedOrigin_ReturnsCorsHeader()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "/");
+        request.Headers.Add("Origin", "http://localhost:3000");
+
+        var response = await _client.SendAsync(request);
+
+        Assert.That(response.Headers.Contains("Access-Control-Allow-Origin"), Is.True);
+    }
 }
