@@ -26,7 +26,6 @@ try
     app.UseForgeProblemDetails();
     app.UseForgeLogging();
     app.UseForgeControllers();
-    app.UseCors("CorsPolicy"); // TODO: remove when Forge.Controllers > 0.3.13 is released
     app.UseForgeHealthChecks();
 
     app.MapGet("/", () => "Hello World");
@@ -37,7 +36,7 @@ try
               .Select(s => new { Name = s.Key, RemoteUrl = s["RemoteUrl"] })
               .ToArray());
 
-    app.Run();
+    await app.RunAsync().ConfigureAwait(false);
 }
 catch (Exception ex)
 {
@@ -45,7 +44,8 @@ catch (Exception ex)
 }
 finally
 {
-    await Log.CloseAndFlushAsync();
+    await Log.CloseAndFlushAsync().ConfigureAwait(false);
 }
 
+#pragma warning disable S1118 // needed for WebApplicationFactory<Program> in tests
 public partial class Program { }
