@@ -7,13 +7,7 @@ export default defineConfig({
     react(),
     federation({
       name: 'shell',
-      remotes: {
-        featureFlags: {
-          type: 'module',
-          name: 'featureFlags',
-          entry: 'http://localhost:3001/remoteEntry.js',
-        },
-      },
+      remotes: {},
       shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
     }),
   ],
