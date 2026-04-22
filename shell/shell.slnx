@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Shell.Api.Tests/Shell.Api.Tests.csproj" />
+  <Project Path="Shell.Api/Shell.Api.csproj" />
+</Solution>

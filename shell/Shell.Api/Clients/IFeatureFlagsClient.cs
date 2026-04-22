@@ -8,4 +8,3 @@ public interface IFeatureFlagsClient
     Task<Flag[]> GetFlagsAsync();
 }
 
-public record Flag(string Name, bool Enabled);
