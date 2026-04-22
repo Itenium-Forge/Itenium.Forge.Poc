@@ -26,6 +26,7 @@ try
     app.UseForgeProblemDetails();
     app.UseForgeLogging();
     app.UseForgeControllers();
+    app.UseCors("CorsPolicy"); // TODO: remove when Forge.Controllers > 0.3.13 is released
     app.UseForgeHealthChecks();
 
     app.MapGet("/", () => "Hello World");
