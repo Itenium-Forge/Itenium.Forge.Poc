@@ -112,18 +112,21 @@ builder.AddForgeHttpClient<IFeatureFlagsClient>("FeatureFlags");
 
 De shell gebruikt `@module-federation/vite` op Vite 7 als host. Er zijn **geen hardcoded remote URLs** in de shell build. In plaats daarvan:
 
-1. `main.tsx` fetcht `GET /apps` van Shell.Api vóór de React render
-2. Roept `init()` aan met de ontvangen app entries — elke entry krijgt `{remoteUrl}/remoteEntry.js` als entry point
-3. `App.tsx` bouwt nav en routes dynamisch op basis van de apps array
-4. De naam-conventie bepaalt pad en label: `FeatureFlags` → `/feature-flags` + `Feature Flags`
+1. `main.tsx` fetcht `GET http://localhost:5100/apps` van Shell.Api vóór de React render
+2. Roept `registerRemotes()` aan — de plugin initialiseert de federation runtime al zelf, `registerRemotes` voegt remotes toe zonder dubbele initialisatie
+3. Elke remote krijgt `type: 'module'` mee zodat `remoteEntry.js` via dynamic `import()` geladen wordt (geen classic script tag — vereist voor ES module output van `@module-federation/vite`)
+4. `App.tsx` bouwt nav en routes dynamisch op basis van de apps array
+5. De naam-conventie bepaalt pad en label: `featureFlags` → `/feature-flags` + `Feature Flags`
 
 Een nieuwe micro-frontend toevoegen = enkel `appsettings.json` updaten, geen shell rebuild nodig.
 
 ```json
 "Apps": {
-  "FeatureFlags": { "RemoteUrl": "http://localhost:3001" }
+  "featureFlags": { "RemoteUrl": "http://localhost:3001" }
 }
 ```
+
+> **Opmerking:** De appsettings sleutel moet exact overeenkomen met de `name` in de `vite.config.ts` van de remote (`federation({ name: 'featureFlags' })`). Een mismatch zorgt ervoor dat de runtime de container niet kan vinden.
 
 > **Opmerking:** Vite 8 (Rolldown) is niet compatibel met `@module-federation/vite` vanwege een CJS/ESM conflict in de gegenereerde virtual modules. Vite 7 (Rollup) werkt wel correct.
 
