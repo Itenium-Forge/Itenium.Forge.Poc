@@ -52,7 +52,7 @@ public class ShellTests
         Assert.That(apps, Is.Not.Null);
         Assert.That(apps!, Has.Length.GreaterThan(0));
         Assert.That(apps!, Has.All.Matches<AppEntry>(a => a.Name != null && a.RemoteUrl != null));
-        Assert.That(apps!, Has.Some.Matches<AppEntry>(a => string.Equals(a.Name, "FeatureFlags", StringComparison.Ordinal)));
+        Assert.That(apps!, Has.Some.Matches<AppEntry>(a => string.Equals(a.Name, "featureFlags", StringComparison.Ordinal)));
         Assert.That(apps!, Has.All.Matches<AppEntry>(a => !a.RemoteUrl!.Contains("remoteEntry.js")));
     }
 
