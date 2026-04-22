@@ -20,17 +20,17 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: 📦 Restore dependencies
-        run: dotnet restore shell
+        run: dotnet restore shell/shell.slnx
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🔍 Scan for vulnerable packages
         run: |
-          dotnet list shell package --vulnerable --include-transitive 2>&1 | tee vuln.txt
+          dotnet list shell/shell.slnx package --vulnerable --include-transitive 2>&1 | tee vuln.txt
           grep -q "has the following vulnerable packages" vuln.txt && exit 1 || exit 0
 
       - name: 🛠️ Build
-        run: dotnet build shell --no-restore --configuration Release
+        run: dotnet build shell/shell.slnx --no-restore --configuration Release
 
       - name: ✅ Run tests
-        run: dotnet test shell --no-build --configuration Release --verbosity normal
+        run: dotnet test shell/shell.slnx --no-build --configuration Release --verbosity normal
