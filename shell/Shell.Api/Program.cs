@@ -1,9 +1,11 @@
 using Itenium.Forge.Controllers;
 using Itenium.Forge.HealthChecks;
+using Itenium.Forge.HttpClients;
 using Itenium.Forge.Logging;
 using Itenium.Forge.Settings;
 using Serilog;
 using Shell.Api;
+using Shell.Api.Clients;
 
 Log.Logger = LoggingExtensions.CreateBootstrapLogger();
 
@@ -16,6 +18,8 @@ try
     builder.AddForgeControllers();
     builder.AddForgeProblemDetails();
     builder.AddForgeHealthChecks();
+
+    builder.AddForgeHttpClient<IFeatureFlagsClient>("FeatureFlags");
 
     var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 
 namespace Shell.Api.Tests;
 
@@ -52,6 +53,15 @@ public class ShellTests
     }
 
     [Test]
+    public async Task ApiFlagsProxy_ReturnsFlags()
+    {
+        var flags = await _client.GetFromJsonAsync<Flag[]>("/api/flags");
+        Assert.That(flags, Is.Not.Null);
+        Assert.That(flags!, Has.Length.GreaterThan(0));
+        Assert.That(flags!, Has.All.Matches<Flag>(f => f.Name != null));
+    }
+
+    [Test]
     public async Task Get_WithAllowedOrigin_ReturnsCorsHeader()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, "/");
@@ -61,4 +71,6 @@ public class ShellTests
 
         Assert.That(response.Headers.Contains("Access-Control-Allow-Origin"), Is.True);
     }
+
+    private record Flag(string Name, bool Enabled);
 }
