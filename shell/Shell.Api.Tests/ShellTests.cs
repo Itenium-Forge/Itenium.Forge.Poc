@@ -48,9 +48,15 @@ public class ShellTests
     [Test]
     public async Task Apps_ReturnsConfiguredApps()
     {
-        var response = await _client.GetAsync("/apps");
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        var apps = await _client.GetFromJsonAsync<AppEntry[]>("/apps");
+        Assert.That(apps, Is.Not.Null);
+        Assert.That(apps!, Has.Length.GreaterThan(0));
+        Assert.That(apps!, Has.All.Matches<AppEntry>(a => a.Name != null && a.RemoteUrl != null));
+        Assert.That(apps!, Has.Some.Matches<AppEntry>(a => string.Equals(a.Name, "FeatureFlags", StringComparison.Ordinal)));
+        Assert.That(apps!, Has.All.Matches<AppEntry>(a => !a.RemoteUrl!.Contains("remoteEntry.js")));
     }
+
+    private record AppEntry(string Name, string? RemoteUrl);
 
     [Test]
     public async Task ApiFlagsProxy_ReturnsFlags()

@@ -17,7 +17,7 @@ public class ShellFactory : WebApplicationFactory<Program>
 
             services.PostConfigure<HealthCheckServiceOptions>(options =>
             {
-                var registration = options.Registrations.FirstOrDefault(r => r.Name == "http-FeatureFlags");
+                var registration = options.Registrations.FirstOrDefault(r => string.Equals(r.Name, "http-FeatureFlags", StringComparison.Ordinal));
                 if (registration != null)
                     options.Registrations.Remove(registration);
             });
@@ -25,11 +25,3 @@ public class ShellFactory : WebApplicationFactory<Program>
     }
 }
 
-public class MockFeatureFlagsClient : IFeatureFlagsClient
-{
-    public Task<Flag[]> GetFlagsAsync() => Task.FromResult(new[]
-    {
-        new Flag("dark-mode", true),
-        new Flag("new-dashboard", false),
-    });
-}

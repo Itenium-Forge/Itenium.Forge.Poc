@@ -108,9 +108,22 @@ builder.AddForgeHttpClient<IFeatureFlagsClient>("FeatureFlags");
 
 ---
 
-## Module Federation
+## Module Federation — Runtime Manifest
 
-De shell gebruikt `@module-federation/vite` op Vite 7 als host. De remote (`feature-flags-ui`) wordt lazy geladen vanuit `http://localhost:3001/remoteEntry.js`.
+De shell gebruikt `@module-federation/vite` op Vite 7 als host. Er zijn **geen hardcoded remote URLs** in de shell build. In plaats daarvan:
+
+1. `main.tsx` fetcht `GET /apps` van Shell.Api vóór de React render
+2. Roept `init()` aan met de ontvangen app entries — elke entry krijgt `{remoteUrl}/remoteEntry.js` als entry point
+3. `App.tsx` bouwt nav en routes dynamisch op basis van de apps array
+4. De naam-conventie bepaalt pad en label: `FeatureFlags` → `/feature-flags` + `Feature Flags`
+
+Een nieuwe micro-frontend toevoegen = enkel `appsettings.json` updaten, geen shell rebuild nodig.
+
+```json
+"Apps": {
+  "FeatureFlags": { "RemoteUrl": "http://localhost:3001" }
+}
+```
 
 > **Opmerking:** Vite 8 (Rolldown) is niet compatibel met `@module-federation/vite` vanwege een CJS/ESM conflict in de gegenereerde virtual modules. Vite 7 (Rollup) werkt wel correct.
 

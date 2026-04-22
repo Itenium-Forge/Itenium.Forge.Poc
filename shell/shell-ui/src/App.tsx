@@ -1,29 +1,39 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
+import { loadRemote } from '@module-federation/runtime'
 import './App.css'
-
-const FeatureFlagsApp = lazy(() => import('featureFlags/App'))
 
 interface AppEntry {
   name: string
   remoteUrl: string
 }
 
-function Shell() {
-  const [message, setMessage] = useState<string>('')
-  const [apps, setApps] = useState<AppEntry[]>([])
+interface RemoteApp {
+  name: string
+  path: string
+  label: string
+  Component: React.LazyExoticComponent<React.ComponentType>
+}
 
-  useEffect(() => {
-    fetch('http://localhost:5100')
-      .then(r => r.text())
-      .then(setMessage)
-      .catch(() => setMessage('backend offline'))
+const toKebabCase = (name: string) =>
+  name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
 
-    fetch('http://localhost:5100/apps')
-      .then(r => r.json())
-      .then(setApps)
-      .catch(() => setApps([]))
-  }, [])
+const toLabel = (name: string) =>
+  name.replace(/([A-Z])/g, ' $1').trim()
+
+function buildRemoteApps(apps: AppEntry[]): RemoteApp[] {
+  return apps.map(app => ({
+    name: app.name,
+    path: toKebabCase(app.name),
+    label: toLabel(app.name),
+    Component: lazy(() =>
+      (loadRemote(`${app.name}/App`) as Promise<{ default: React.ComponentType }>)
+    ),
+  }))
+}
+
+function Shell({ apps }: { apps: AppEntry[] }) {
+  const remoteApps = buildRemoteApps(apps)
 
   return (
     <div className="shell">
@@ -31,36 +41,31 @@ function Shell() {
         <span className="shell-logo">Forge POC</span>
         <nav>
           <NavLink to="/">Home</NavLink>
-          {apps.map(app => {
-            const path = app.name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-            const label = app.name.replace(/([A-Z])/g, ' $1').trim()
-            return <NavLink key={app.name} to={`/${path}`}>{label}</NavLink>
-          })}
+          {remoteApps.map(app => (
+            <NavLink key={app.name} to={`/${app.path}`}>{app.label}</NavLink>
+          ))}
         </nav>
       </header>
       <main className="shell-content">
         <Routes>
-          <Route path="/" element={
-            <>
-              <h1>Shell</h1>
-              <p>Backend: <strong>{message || '...'}</strong></p>
-            </>
-          } />
-          <Route path="/feature-flags" element={
-            <Suspense fallback={<p>Laden...</p>}>
-              <FeatureFlagsApp />
-            </Suspense>
-          } />
+          <Route path="/" element={<h1>Shell</h1>} />
+          {remoteApps.map(app => (
+            <Route key={app.name} path={`/${app.path}`} element={
+              <Suspense fallback={<p>Laden...</p>}>
+                <app.Component />
+              </Suspense>
+            } />
+          ))}
         </Routes>
       </main>
     </div>
   )
 }
 
-function App() {
+function App({ apps }: { apps: AppEntry[] }) {
   return (
     <BrowserRouter>
-      <Shell />
+      <Shell apps={apps} />
     </BrowserRouter>
   )
 }
