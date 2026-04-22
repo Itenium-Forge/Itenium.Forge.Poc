@@ -32,6 +32,11 @@ function buildRemoteApps(apps: AppEntry[]): RemoteApp[] {
   }))
 }
 
+function applyFlags(flags: { name: string; enabled: boolean }[]) {
+  const dark = flags.find(f => f.name === 'dark-mode')?.enabled ?? false
+  document.documentElement.classList.toggle('dark', dark)
+}
+
 function Shell({ apps }: { apps: AppEntry[] }) {
   const remoteApps = buildRemoteApps(apps)
   const [message, setMessage] = useState<string>('')
@@ -41,6 +46,18 @@ function Shell({ apps }: { apps: AppEntry[] }) {
       .then(r => r.text())
       .then(setMessage)
       .catch(() => setMessage('backend offline'))
+  }, [])
+
+  useEffect(() => {
+    const poll = () =>
+      fetch('http://localhost:5100/api/flags')
+        .then(r => r.json())
+        .then(applyFlags)
+        .catch(() => {})
+
+    poll()
+    const id = setInterval(poll, 3000)
+    return () => clearInterval(id)
   }, [])
 
   return (
