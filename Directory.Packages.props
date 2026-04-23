@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Itenium.Forge.Controllers" Version="0.3.14" />
+    <PackageVersion Include="Itenium.Forge.HealthChecks" Version="0.3.14" />
+    <PackageVersion Include="Itenium.Forge.HttpClient" Version="0.3.14" />
+    <PackageVersion Include="Itenium.Forge.Logging" Version="0.3.14" />
+    <PackageVersion Include="Itenium.Forge.Settings" Version="0.3.14" />
+    <PackageVersion Include="Serilog" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Test">
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+    <PackageVersion Include="NUnit" Version="4.3.2" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.7.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
+  </ItemGroup>
+</Project>
