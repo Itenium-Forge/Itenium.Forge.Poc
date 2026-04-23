@@ -3,11 +3,14 @@ using Shell.Api.Clients;
 
 namespace Shell.Api.Controllers;
 
+/// <summary>Proxy controller for feature flags from the FeatureFlags microservice.</summary>
 [ApiController]
 [Route("api/[controller]")]
 public class FlagsController(IFeatureFlagsClient featureFlagsClient) : ControllerBase
 {
+    /// <summary>Returns all feature flags.</summary>
     [HttpGet]
+    [ProducesResponseType<Flag[]>(StatusCodes.Status200OK)]
     public async Task<IActionResult> Get()
     {
         var flags = await featureFlagsClient.GetFlagsAsync();

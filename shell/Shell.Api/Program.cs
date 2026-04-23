@@ -2,6 +2,7 @@ using Itenium.Forge.Controllers;
 using Itenium.Forge.HealthChecks;
 using Itenium.Forge.HttpClients;
 using Itenium.Forge.Logging;
+using Itenium.Forge.SecurityHeaders;
 using Itenium.Forge.Settings;
 using Itenium.Forge.Swagger;
 using Serilog;
@@ -25,6 +26,7 @@ try
 
     var app = builder.Build();
 
+    app.UseForgeSecurityHeaders();
     app.UseForgeSwagger();
     app.UseForgeProblemDetails();
     app.UseForgeLogging();

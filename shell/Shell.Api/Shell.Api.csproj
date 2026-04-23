@@ -8,13 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Itenium.Forge.Swagger" Version="0.3.14" />
-    <PackageReference Include="Itenium.Forge.Settings" Version="0.3.14" />
-    <PackageReference Include="Itenium.Forge.Logging" Version="0.3.14" />
-    <PackageReference Include="Itenium.Forge.Controllers" Version="0.3.14" />
-    <PackageReference Include="Itenium.Forge.HealthChecks" Version="0.3.14" />
-    <PackageReference Include="Itenium.Forge.HttpClient" Version="0.3.14" />
-    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Itenium.Forge.SecurityHeaders" />
+    <PackageReference Include="Itenium.Forge.Swagger" />
+    <PackageReference Include="Itenium.Forge.Settings" />
+    <PackageReference Include="Itenium.Forge.Logging" />
+    <PackageReference Include="Itenium.Forge.Controllers" />
+    <PackageReference Include="Itenium.Forge.HealthChecks" />
+    <PackageReference Include="Itenium.Forge.HttpClient" />
+    <PackageReference Include="Serilog" />
   </ItemGroup>
 
 </Project>
