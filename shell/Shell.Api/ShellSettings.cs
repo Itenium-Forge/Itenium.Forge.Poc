@@ -5,5 +5,6 @@ namespace Shell.Api;
 
 public class ShellSettings : IForgeSettings
 {
+    /// <inheritdoc />
     public ForgeSettings Forge { get; } = new();
 }
