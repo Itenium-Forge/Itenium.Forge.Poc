@@ -5,6 +5,7 @@
 
   <ItemGroup>
     <PackageVersion Include="Itenium.Forge.Controllers" Version="0.3.14" />
+    <PackageVersion Include="Itenium.Forge.SecurityHeaders" Version="0.3.14" />
     <PackageVersion Include="Itenium.Forge.HealthChecks" Version="0.3.14" />
     <PackageVersion Include="Itenium.Forge.HttpClient" Version="0.3.14" />
     <PackageVersion Include="Itenium.Forge.Logging" Version="0.3.14" />

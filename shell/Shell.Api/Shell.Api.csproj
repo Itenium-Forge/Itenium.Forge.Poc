@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Itenium.Forge.SecurityHeaders" />
     <PackageReference Include="Itenium.Forge.Settings" />
     <PackageReference Include="Itenium.Forge.Logging" />
     <PackageReference Include="Itenium.Forge.Controllers" />
