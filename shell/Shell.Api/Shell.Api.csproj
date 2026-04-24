@@ -4,10 +4,12 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Itenium.Forge.SecurityHeaders" />
+    <PackageReference Include="Itenium.Forge.Swagger" />
     <PackageReference Include="Itenium.Forge.Settings" />
     <PackageReference Include="Itenium.Forge.Logging" />
     <PackageReference Include="Itenium.Forge.Controllers" />

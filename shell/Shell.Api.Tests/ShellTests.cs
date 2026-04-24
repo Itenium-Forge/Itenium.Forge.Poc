@@ -61,10 +61,12 @@ public class ShellTests
     [Test]
     public async Task ApiFlagsProxy_ReturnsFlags()
     {
-        var flags = await _client.GetFromJsonAsync<Flag[]>("/api/flags");
-        Assert.That(flags, Is.Not.Null);
-        Assert.That(flags!, Has.Length.GreaterThan(0));
-        Assert.That(flags!, Has.All.Matches<Flag>(f => f.Name != null));
+        var result = await _client.GetFromJsonAsync<PagedResult<Flag>>("/api/flags");
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result!.Items, Has.Count.GreaterThan(0));
+        Assert.That(result.Items, Has.All.Matches<Flag>(f => f.Name != null));
+        Assert.That(result.Page, Is.Not.Null);
+        Assert.That(result.Page.TotalCount, Is.EqualTo(result.Items.Count));
     }
 
     [Test]
@@ -78,5 +80,7 @@ public class ShellTests
         Assert.That(response.Headers.Contains("Access-Control-Allow-Origin"), Is.True);
     }
 
+    private record PagedResult<T>(List<T> Items, PageInfo Page);
+    private record PageInfo(int TotalCount);
     private record Flag(string Name, bool Enabled);
 }

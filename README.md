@@ -74,18 +74,20 @@ Shell.Api gebruikt de volgende Forge packages (v0.3.14):
 
 | Package | Wat het doet |
 |---------|-------------|
+| `Itenium.Forge.Core` | `ForgePagedResult` en `ForgePageQuery` voor paginatie |
 | `Itenium.Forge.Settings` | appsettings laden, `IForgeSettings` valideren, metadata loggen bij startup |
 | `Itenium.Forge.Logging` | Serilog bootstrap, structured request logging, log naar bestand |
 | `Itenium.Forge.Controllers` | CORS, response compression (Brotli/Gzip), camelCase JSON |
 | `Itenium.Forge.HealthChecks` | `/health/live` en `/health/ready` endpoints |
 | `Itenium.Forge.HttpClient` | Refit client registratie, `http-FeatureFlags` readiness check, traceparent propagatie |
+| `Itenium.Forge.SecurityHeaders` | Security headers (CSP, HSTS, X-Frame-Options, …) via ForApi profiel |
+| `Itenium.Forge.Swagger` | Swagger UI + OpenAPI doc gegenereerd uit XML comments |
 
 ### Niet (nog) gebruikt in deze POC
 
 | Package | Reden |
 |---------|-------|
 | `Itenium.Forge.Security` | Geen authenticatie — bewuste scope-beperking |
-| `Itenium.Forge.Swagger` | Geen API documentatie nodig |
 | `Itenium.Forge.Telemetry` | Geen OpenTelemetry |
 
 ---

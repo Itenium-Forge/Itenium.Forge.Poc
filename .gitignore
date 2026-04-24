@@ -55,3 +55,6 @@ nunit-*.xml
 # Module Federation build cache
 .__mf__temp/
 .mf/
+
+# Local overrides — machine-specific settings, not for source control
+appsettings.Local.json
