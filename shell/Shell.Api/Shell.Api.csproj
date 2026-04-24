@@ -18,4 +18,8 @@
     <PackageReference Include="Serilog" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Itenium.Forge.Core\Itenium.Forge.Core\Itenium.Forge.Core.csproj" />
+  </ItemGroup>
+
 </Project>

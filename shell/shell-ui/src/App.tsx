@@ -32,7 +32,8 @@ function buildRemoteApps(apps: AppEntry[]): RemoteApp[] {
   }))
 }
 
-function applyFlags(flags: { name: string; enabled: boolean }[]) {
+function applyFlags(pagedFlags: { items: { name: string; enabled: boolean }[] }) {
+  const flags = pagedFlags.items ?? []
   const dark = flags.find(f => f.name === 'dark-mode')?.enabled ?? false
   document.documentElement.classList.toggle('dark', dark)
 }
