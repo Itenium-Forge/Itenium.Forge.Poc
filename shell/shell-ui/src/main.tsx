@@ -13,12 +13,13 @@ interface Flag {
 }
 
 async function bootstrap() {
-  const [apps, flags]: [AppEntry[], Flag[]] = await Promise.all([
+  const [apps, pagedFlags]: [AppEntry[], { items: Flag[] }] = await Promise.all([
     fetch('http://localhost:5100/apps').then(r => r.json()).catch(() => []),
-    fetch('http://localhost:5100/api/flags').then(r => r.json()).catch(() => []),
+    fetch('http://localhost:5100/api/flags').then(r => r.json()).catch(() => ({ items: [] })),
   ])
 
-  const darkMode = (flags as Flag[]).find(f => f.name === 'dark-mode')?.enabled ?? false
+  const flags = pagedFlags.items ?? []
+  const darkMode = flags.find(f => f.name === 'dark-mode')?.enabled ?? false
   document.documentElement.classList.toggle('dark', darkMode)
 
   const { registerRemotes } = await import('@module-federation/runtime')
