@@ -74,6 +74,7 @@ Shell.Api gebruikt de volgende Forge packages (v0.3.14):
 
 | Package | Wat het doet |
 |---------|-------------|
+| `Itenium.Forge.Core` | `ForgePagedResult` en `ForgePageQuery` voor paginatie |
 | `Itenium.Forge.Settings` | appsettings laden, `IForgeSettings` valideren, metadata loggen bij startup |
 | `Itenium.Forge.Logging` | Serilog bootstrap, structured request logging, log naar bestand |
 | `Itenium.Forge.Controllers` | CORS, response compression (Brotli/Gzip), camelCase JSON |
