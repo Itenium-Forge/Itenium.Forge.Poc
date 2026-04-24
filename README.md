@@ -13,7 +13,7 @@ Itenium.Forge.Poc/
 └── shell/
     ├── Shell.Api/              .NET backend, poort 5100
     ├── Shell.Api.Tests/        NUnit integratie tests
-    └── shell-ui/               React/Vite host, poort 3000
+    └── shell-ui/               React/Vite host, poort 3005
 ```
 
 De Feature Flags microservice leeft in een aparte repo: [Itenium.Forge.FeatureFlags](https://github.com/Itenium-Forge/Itenium.Forge.FeatureFlags)
@@ -41,7 +41,7 @@ cd shell/Shell.Api && dotnet run          # http://localhost:5100
 cd shell/shell-ui
 npm install
 npm run build
-npm run preview        # http://localhost:3000
+npm run preview        # http://localhost:3005
 ```
 
 ### Testen
@@ -59,7 +59,7 @@ De shell haalt bij opstart de geregistreerde apps op via `GET /apps` (Shell.Api)
 De Feature Flags component wordt **lazy geladen** via Module Federation wanneer de gebruiker op "Feature Flags" klikt. De flags data loopt via Shell.Api als proxy naar FeatureFlags.Api.
 
 ```
-Browser → shell-ui (3000)
+Browser → shell-ui (3005)
            ├── GET /apps      → Shell.Api (5100)              nav items ophalen
            ├── lazy import    → feature-flags-ui (3001)       component laden
            └── GET /api/flags → Shell.Api (5100)              proxy
@@ -82,13 +82,19 @@ Shell.Api gebruikt de volgende Forge packages (v0.3.14):
 | `Itenium.Forge.HttpClient` | Refit client registratie, `http-FeatureFlags` readiness check, traceparent propagatie |
 | `Itenium.Forge.SecurityHeaders` | Security headers (CSP, HSTS, X-Frame-Options, …) via ForApi profiel |
 | `Itenium.Forge.Swagger` | Swagger UI + OpenAPI doc gegenereerd uit XML comments |
+| `Itenium.Forge.Telemetry` | OpenTelemetry (OTLP) export voor traces en metrics |
 
 ### Niet (nog) gebruikt in deze POC
 
 | Package | Reden |
 |---------|-------|
 | `Itenium.Forge.Security` | Geen authenticatie — bewuste scope-beperking |
-| `Itenium.Forge.Telemetry` | Geen OpenTelemetry |
+
+---
+
+## Telemetry — OpenTelemetry
+
+De POC gebruikt `Itenium.Forge.Telemetry` voor distributed tracing en metrics. Gegevens worden via OTLP geëxporteerd naar `http://localhost:4317`. Gebruik de LGTM stack uit de `Itenium.Forge.Core` repo om deze te bekijken (Grafana op poort 3000).
 
 ---
 

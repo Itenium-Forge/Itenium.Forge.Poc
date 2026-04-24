@@ -11,6 +11,6 @@ export default defineConfig({
       shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
     }),
   ],
-  server: { port: 3000 },
-  preview: { port: 3000 },
+  server: { port: 3005 },
+  preview: { port: 3005 },
 })

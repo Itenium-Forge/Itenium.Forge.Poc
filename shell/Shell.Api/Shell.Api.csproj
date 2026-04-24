@@ -15,6 +15,7 @@
     <PackageReference Include="Itenium.Forge.Controllers" />
     <PackageReference Include="Itenium.Forge.HealthChecks" />
     <PackageReference Include="Itenium.Forge.HttpClient" />
+    <PackageReference Include="Itenium.Forge.Telemetry" />
     <PackageReference Include="Serilog" />
   </ItemGroup>
 
