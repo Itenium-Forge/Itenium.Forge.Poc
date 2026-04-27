@@ -4,6 +4,7 @@ using Itenium.Forge.HttpClients;
 using Itenium.Forge.Logging;
 using Itenium.Forge.SecurityHeaders;
 using Itenium.Forge.Settings;
+using Itenium.Forge.Swagger;
 using Serilog;
 using Shell.Api;
 using Shell.Api.Clients;
@@ -16,6 +17,7 @@ try
     builder.AddForgeSettings<ShellSettings>();
     builder.AddForgeLogging();
 
+    builder.AddForgeSwagger();
     builder.AddForgeControllers();
     builder.AddForgeProblemDetails();
     builder.AddForgeHealthChecks();
@@ -25,6 +27,7 @@ try
     var app = builder.Build();
 
     app.UseForgeSecurityHeaders();
+    app.UseForgeSwagger();
     app.UseForgeProblemDetails();
     app.UseForgeLogging();
     app.UseForgeControllers();
@@ -49,5 +52,5 @@ finally
     await Log.CloseAndFlushAsync().ConfigureAwait(false);
 }
 
-#pragma warning disable S1118 // needed for WebApplicationFactory<Program> in tests
+#pragma warning disable S1118, CS1591 // needed for WebApplicationFactory<Program> in tests
 public partial class Program { }
