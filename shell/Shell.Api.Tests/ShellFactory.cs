@@ -17,13 +17,15 @@ public class ShellFactory : WebApplicationFactory<Program>
 
             services.PostConfigure<HealthCheckServiceOptions>(options =>
             {
-                var registration = options.Registrations.FirstOrDefault(r => string.Equals(r.Name, "http-FeatureFlags", StringComparison.Ordinal));
-                if (registration != null)
-                    options.Registrations.Remove(registration);
+                // Remove all health checks except 'self' to avoid external dependencies during tests
+                var toRemove = options.Registrations
+                    .Where(r => !string.Equals(r.Name, "self", StringComparison.Ordinal))
+                    .ToList();
 
-                var otlp = options.Registrations.FirstOrDefault(r => string.Equals(r.Name, "otlp", StringComparison.Ordinal));
-                if (otlp != null)
-                    options.Registrations.Remove(otlp);
+                foreach (var registration in toRemove)
+                {
+                    options.Registrations.Remove(registration);
+                }
             });
         });
     }
