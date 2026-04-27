@@ -45,6 +45,7 @@ try
               .ToArray());
 
     await app.RunAsync().ConfigureAwait(false);
+    
 }
 catch (Exception ex)
 {

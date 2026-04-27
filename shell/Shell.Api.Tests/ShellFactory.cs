@@ -20,6 +20,10 @@ public class ShellFactory : WebApplicationFactory<Program>
                 var registration = options.Registrations.FirstOrDefault(r => string.Equals(r.Name, "http-FeatureFlags", StringComparison.Ordinal));
                 if (registration != null)
                     options.Registrations.Remove(registration);
+
+                var otlp = options.Registrations.FirstOrDefault(r => string.Equals(r.Name, "otlp", StringComparison.Ordinal));
+                if (otlp != null)
+                    options.Registrations.Remove(otlp);
             });
         });
     }
