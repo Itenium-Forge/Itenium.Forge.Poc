@@ -5,6 +5,7 @@ using Itenium.Forge.Logging;
 using Itenium.Forge.SecurityHeaders;
 using Itenium.Forge.Settings;
 using Itenium.Forge.Swagger;
+using Itenium.Forge.Telemetry;
 using Serilog;
 using Shell.Api;
 using Shell.Api.Clients;
@@ -21,6 +22,7 @@ try
     builder.AddForgeControllers();
     builder.AddForgeProblemDetails();
     builder.AddForgeHealthChecks();
+    builder.AddForgeTelemetry();
 
     builder.AddForgeHttpClient<IFeatureFlagsClient>("FeatureFlags");
 
@@ -30,6 +32,7 @@ try
     app.UseForgeSwagger();
     app.UseForgeProblemDetails();
     app.UseForgeLogging();
+    app.UseForgeTelemetry();
     app.UseForgeControllers();
     app.UseForgeHealthChecks();
 
